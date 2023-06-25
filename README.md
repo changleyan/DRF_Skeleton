@@ -8,48 +8,26 @@ Django REST Skeleton
 This is an opinionated [Django][django] project skeleton based on:
 
 * [Django REST framework][django-rest-framework]
-* Environment Variable and database urls based settings
-* Migrations with [South][south]
-* Deployment with [fabric][fabric]
-* Documentation with [Sphinx][sphinx]
-* Cache with [Redis][redis]
+* Configuration based on database URLs and configuration files
+* Documentation with [Swagger][swagger]
+* Authentication with OAuth2 [OAuth2][oaut2]
 
 ---
 
-Installation
-------------
 
-After installing Django, You can install the project template with
-`django-admin.py`:
+## Getting Started
+1. Clone the repo from GitHub
+1. Delete the `.git` folder
+1. Remove/add anything as you see fit
+1. Initialize as a new git repository for your own project
+1. Change database connection settings `config.run_mode.[dev_mode | prod_mode].DATABASES` 
+1. Install dependencies with the command `pip install -r .\requirements\all.txt `
+1. Run the migrations with the command `python manage.py migrate`
+1. Create superuser with the command `python manage.py createsuperuser`
+1. Run the project using `python manage.py runserver` and you should see the default
+success page provided by Django at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+1. Access the Django admin and create an application for OAuth2 authentication and configure as shown in the following screenshot [OAuth2_Configuration][OAuth2_Configuration]. Important to copy the Client_id and the Secret_id 
 
-    django-admin.py startproject --template=https://github.com/sebastibe/django-rest-skeleton/archive/master.zip myproject
-
-Settings
---------
-
-Set your settings values within the envdir folder in development or
-production. To set `Debug = True` for example:
-
-    $ echo "true" > envdir/DEBUG
-
-We also use heroku-like database urls:
-
-    $ echo "postgres://postgres@localhost:5432/project" > envdir/DATABASE_URL
-
-Database
---------
-
-Setup [PostgreSQL][postgresql], preferably by running the commands as a
-`postgres` user with `sudo -u postgres`:
-
-    $ createuser -d -A -P username
-    $ createdb -O username dbname
-
-No need of `-d` option when creating database in production.
-
-Install and run [Redis][redis]:
-
-    $ redis-server
 
 
 Project layout
@@ -62,105 +40,97 @@ Project layout
 │   └── core # A django rest app
 │       ├── api
 │       │   ├── v1
+│       │   │   ├── example_component
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── UserPermissions.py
+│       │   │   │   ├── UserSerializer.py
+│       │   │   │   └── UserViewSet.py
+│       │   │   ├── generic_component
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── GenericFilter.py
+│       │   │   │   ├── GenericModel.py
+│       │   │   │   ├── GenericPermissions.py
+│       │   │   │   ├── GenericSerializer.py
+│       │   │   │   ├── GenericService.py
+│       │   │   │   └── GenericViewSet.py
 │       │   │   ├── __init__.py
 │       │   │   ├── tests.py
 │       │   │   └── urls.py
 │       │   ├── v2
+│       │   │   ├── filters
+│       │   │   │   └── __init__.py
+│       │   │   ├── permissions
+│       │   │   │   └── __init__.py
+│       │   │   ├── serializers
+│       │   │   │   └── __init__.py
+│       │   │   ├── services
+│       │   │   │   └── __init__.py
+│       │   │   ├── viewsets
+│       │   │   │   └── __init__.py
 │       │   │   ├── __init__.py
-│       │   │   ├── serializers.py
-│       │   │   ├── services.py
 │       │   │   ├── tests.py
-│       │   │   ├── urls.py
-│       │   │   └── views.py
+│       │   │   └── urls.py
 │       │   └── __init__.py
-│       ├── management
-│       │   ├── commands
-│       │   │   └── command.py
+│       ├── models
 │       │   └── __init__.py
 │       ├── migrations
 │       │   └── __init__.py
-│       ├── templates
-│       ├── tests
+│       ├── __init__.py
 │       ├── admin.py
 │       ├── apps.py
-│       ├── __init__.py
-│       ├── models.py
+│       ├── tasks.py
+│       ├── tests.py
 │       ├── urls.py
-│       ├── utils.py
 │       └── views.py
-├── common # An optional folder containing common "stuff" for the entire project
-├── config
-│   ├── settings.py
-│   ├── asgi.py
+├── common
+│   ├── db
+│   │   ├── __init__.py
+│   │   └── ApiDBRouter.py
+│   ├── middleware
+│   │   ├── __init__.py
+│   │   └── DisableCSRFMiddleware.py
+│   ├── oauth2
+│   │   ├── __init__.py
+│   │   └── urls.py
+│   ├── utils
+│   │   ├── __init__.py
+│   │   └── utils.py
 │   ├── __init__.py
+│   └── generics.py
+├── config
+│   ├── run_mode
+│   │   ├── __init__.py
+│   │   ├── dev_mode.py
+│   │   └── prod_mode.py
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── deployments
-│   ├── django-project
-│   │   └── Dockerfile
-│   ├── nginx
-│   │   ├── default.conf
-│   │   └── Dockerfile
-│   └── docker-compose.yml
-├── docs
-│   ├── CHANGELOG.md
-│   ├── CONTRIBUTING.md
-│   ├── deployment.md
-│   ├── local-development.md
-│   └── swagger.yaml
+├── logs
+│   ├── api.file.error.log
+│   └── api.file.log
 ├── requirements
-│   ├── common.txt
-│   ├── development.txt
-│   ├── local.txt
-│   └── production.txt
+│   ├── all.txt
+│   ├── deploy.txt
+│   ├── dev.txt
+│   ├── optional.txt
+│   ├── required.txt
+│   └── testing.txt
 ├── static
-├── entrypoint.sh
+│   └── media
+│       └── Configuracion de aplicacion de OAuth2.png
+├── .gitignore
 ├── manage.py
-├── pytest.ini
 └── README.md
 
 ```
 
 
-Tests
------
-
-Tests are autodiscovered within the `/tests` folder. You can run them all with:
-
-    $ python manage.py test
-
-Or if you can run only the tests in a specific module with:
-
-    $ python manage.py test full.dotted.path.to.test_module
-
-
-Documentation
--------------
-
-In the `/docs` folder, run the Sphinx helper:
-
-    $ sphinx-quickstart
-
-For documenting your Django code, be sure to to say yes to the "autodoc"
-extension. You can take a look at the [following gist][sphinx-conf-gist]
-to enable Django models discovery.
-
-Deployment
-----------
-
-Use [daemontools]'s envdir program to manage application secrets
-(SECRET_KEY, DATABASE_URL, SENTRY_DSN, etc.).
-
-Use a process watcher such as [supervisord] or [circus] to run the web
-server. Example:
-
-    command=envdir /path/to/envdir /path/to/env/bin/gunicorn api.wsgi:application -k gevent -b 127.0.0.1:8000 -w 2
-
-
 License
 -------
 
-Copyright (c) 2013, Sébastien Béal
+Copyright (c) 2023, Leyan Chang
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -185,13 +155,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [django]: https://www.djangoproject.com/
 [django-rest-framework]: http://django-rest-framework.org/
-[south]: http://south.aeracode.org/
-[fabric]: http://fabfile.org/
-[sphinx]: http://sphinx.pocoo.org/
-[sphinx-conf-gist]: http://gist.github.com/sebastibe/4450508
-[supervisord]: http://supervisord.org/
-[markdown]: http://pypi.python.org/pypi/Markdown/
-[postgresql]: http://www.postgresql.org/
-[redis]: http://redis.io/
-[daemontools]: http://cr.yp.to/daemontools.html
-[circus]: http://circus.readthedocs.org/
+[swagger]: https://drf-yasg.readthedocs.io/en/stable/readme.html
+[oaut2]: https://django-oauth-toolkit.readthedocs.io/en/latest/install.html
+[OAuth2_Configuration]: static/media/Configuracion%20de%20aplicacion%20de%20OAuth2.png
