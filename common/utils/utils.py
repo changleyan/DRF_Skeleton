@@ -12,10 +12,13 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import Permission
 from django.core.exceptions import MultipleObjectsReturned
 from django.http import Http404
+from django.contrib.auth.models import Group
 
 
 MAX_SIZE_IMAGE = 10 * 1024 * 1024
 MAX_SIZE_DOC = 50 * 1024 * 1024
+
+G_ADMINISTRADOR = "Administrators"
 
 ALLOWED_TYPE_IMAGE = [
     "image/png",
@@ -249,6 +252,21 @@ def has_permission(request, view, model_name=None):
         if permission in permisos:
             return True
     return False
+
+def pertenece_grupo(usuario, nombre_grupo):
+    if nombre_grupo is None or usuario is None or usuario.is_anonymous:
+        return False
+    else:
+
+        try:
+            grupo = Group.objects.get(name=nombre_grupo)
+        except Exception:
+            return False
+
+        if grupo in usuario.groups.all():
+            return True
+        else:
+            return False
 
 
 def check_perm_set_action(self, request, instance, action):

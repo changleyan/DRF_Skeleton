@@ -142,7 +142,6 @@ REST_FRAMEWORK = {
     "DEFAULT_METADATA_CLASS": "rest_framework.metadata.SimpleMetadata",
     "DEFAULT_FILTER_BACKENDS": (
         "rest_framework.filters.OrderingFilter",
-        "django_filters.rest_framework.DjangoFilterBackend",
     ),
     'DEFAULT_PAGINATION_CLASS': 'common.utils.utils.StandardResultsSetPagination',
     'PAGE_SIZE': 20,
