@@ -21,7 +21,7 @@ This is an opinionated [Django][django] project skeleton based on:
 1. Remove/add anything as you see fit
 1. Initialize as a new git repository for your own project
 1. Change database connection settings `config.run_mode.[dev_mode | prod_mode].DATABASES` 
-1. Install dependencies with the command `pip install -r .\requirements\all.txt `
+1. Install dependencies on your environment with the command `pip install -r .\requirements\all.txt `
 1. Run the migrations with the command `python manage.py migrate`
 1. Create superuser with the command `python manage.py createsuperuser`
 1. Run the project using `python manage.py runserver` and you should see the default
