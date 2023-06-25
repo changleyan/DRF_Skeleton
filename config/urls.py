@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import apps.core.urls
+import common.oauth2.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'', include(apps.core.urls)),
+    path(r'o/', include(common.oauth2.urls)),
 ]

@@ -45,6 +45,7 @@ INSTALLED_APPS_TERCEROS = [
     'rest_framework_swagger',
     'corsheaders',
     'drf_yasg',
+    'oauth2_provider',
 ]
 
 INSTALLED_APPS_PROYECT = [
@@ -52,31 +53,32 @@ INSTALLED_APPS_PROYECT = [
 ]
 
 INSTALLED_APPS = [
-                  'django.contrib.admin',
-                  'django.contrib.auth',
-                  'django.contrib.contenttypes',
-                  'django.contrib.sessions',
-                  'django.contrib.messages',
-                  'django.contrib.staticfiles',
-                  ] + INSTALLED_APPS_TERCEROS + INSTALLED_APPS_PROYECT
+                     'django.contrib.admin',
+                     'django.contrib.auth',
+                     'django.contrib.contenttypes',
+                     'django.contrib.sessions',
+                     'django.contrib.messages',
+                     'django.contrib.staticfiles',
+                 ] + INSTALLED_APPS_TERCEROS + INSTALLED_APPS_PROYECT
 
 MIDDLEWARE_TERCEROS = [
-    'corsheaders.middleware.CorsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 MIDDLEWARE_PROYECTO = [
     'common.middleware.DisableCSRFMiddleware',
 ]
 
-MIDDLEWARE = MIDDLEWARE_TERCEROS + [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-] + MIDDLEWARE_PROYECTO
+MIDDLEWARE = [
+                 'corsheaders.middleware.CorsMiddleware',
+                 'django.middleware.security.SecurityMiddleware',
+                 'django.contrib.sessions.middleware.SessionMiddleware',
+                 'django.middleware.common.CommonMiddleware',
+                 'django.middleware.csrf.CsrfViewMiddleware',
+                 'django.contrib.auth.middleware.AuthenticationMiddleware',
+                 'django.contrib.messages.middleware.MessageMiddleware',
+                 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+             ] + MIDDLEWARE_TERCEROS + MIDDLEWARE_PROYECTO
 
 ROOT_URLCONF = 'config.urls'
 
@@ -149,6 +151,19 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.MultiPartParser",
         "rest_framework.parsers.FileUploadParser",
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 14400,
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
 
 PAGINATION_PAGE_SIZE = 20

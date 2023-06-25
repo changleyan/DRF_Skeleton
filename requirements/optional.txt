@@ -1,14 +1,10 @@
-mock==5.0.2
-Markdown==3.4.3
-numpy==1.24.3
-openpyxl==3.1.2
-pandas==2.0.2
-XlsxWriter==3.1.2
-django-elasticsearch-dsl==7.3
-django-elasticsearch-dsl-drf==0.22.5
-amqp==5.1.1
-celery==5.3.1
-billiard==4.1.0
-
-
-python-dateutil==2.8.2
+# ----oaut2 packages---
+cffi==1.15.1
+cryptography==41.0.1
+Deprecated==1.2.14
+django-oauth-toolkit==2.3.0
+jwcrypto==1.5.0
+oauthlib==3.2.2
+pycparser==2.21
+wrapt==1.15.0
+#----------
