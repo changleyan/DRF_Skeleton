@@ -1,1 +1,2 @@
-from .DisableCSRFMiddleware import DisableCSRFMiddleware
+from common.middleware.DisableCSRFMiddleware import DisableCSRFMiddleware
+from common.middleware.AccessLogMiddleware import AccessLogMiddleware

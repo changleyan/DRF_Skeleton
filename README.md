@@ -11,6 +11,7 @@ This is an opinionated [Django][django] project skeleton based on:
 * Configuration based on database URLs and configuration files
 * Documentation with [Swagger][swagger]
 * Authentication with OAuth2 [OAuth2][oaut2]
+* Different database to store logs [Multiple_databases][multiple_databases]
 
 ---
 
@@ -27,6 +28,7 @@ This is an opinionated [Django][django] project skeleton based on:
 1. Run the project using `python manage.py runserver` and you should see the default
 success page provided by Django at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 1. Access the Django admin and create an application for OAuth2 authentication and configure as shown in the following screenshot [OAuth2_Configuration][OAuth2_Configuration]. Important to copy the Client_id and the Secret_id 
+1. To create the table log action, you must first execute the command to create the migrations `python manage.py makemigrations ` and then execute the command to migrate but adding the attribute --database=logs_db `python manage.py migrate --database=logs_db`
 
 
 
@@ -72,6 +74,9 @@ Project layout
 │       │   │   └── urls.py
 │       │   └── __init__.py
 │       ├── models
+│       │   ├── logs
+│       │   │   ├── __init__.py
+│       │   │   └── RegistroAccion.py
 │       │   └── __init__.py
 │       ├── migrations
 │       │   └── __init__.py
@@ -88,6 +93,7 @@ Project layout
 │   │   └── ApiDBRouter.py
 │   ├── middleware
 │   │   ├── __init__.py
+│   │   ├── AccessLogMiddleware.py
 │   │   └── DisableCSRFMiddleware.py
 │   ├── oauth2
 │   │   ├── __init__.py
@@ -157,4 +163,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 [django-rest-framework]: http://django-rest-framework.org/
 [swagger]: https://drf-yasg.readthedocs.io/en/stable/readme.html
 [oaut2]: https://django-oauth-toolkit.readthedocs.io/en/latest/install.html
+[multiple_databases]: https://runebook.dev/es/docs/django/topics/db/multi-db
 [OAuth2_Configuration]: static/media/Configuracion%20de%20aplicacion%20de%20OAuth2.png

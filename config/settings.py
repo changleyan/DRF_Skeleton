@@ -67,6 +67,7 @@ MIDDLEWARE_TERCEROS = [
 
 MIDDLEWARE_PROYECTO = [
     'common.middleware.DisableCSRFMiddleware',
+    'common.middleware.AccessLogMiddleware',
 ]
 
 MIDDLEWARE = [

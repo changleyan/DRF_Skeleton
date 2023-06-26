@@ -288,3 +288,11 @@ def generar_slug(string: str, fecha: str):
         fecha = datetime.datetime.now()
     fecha = fecha.strftime("%Y-%m-%d %H-%M-%S-%f")
     return string.nombre + ' ' + fecha
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
+    else:
+        return request.META.get('REMOTE_ADDR')

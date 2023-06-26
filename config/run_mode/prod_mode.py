@@ -30,9 +30,9 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'base_logs': {
+    'logs_db': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'base_logs',
+        'NAME': 'logs_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
